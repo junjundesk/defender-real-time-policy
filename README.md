@@ -28,6 +28,28 @@ DisableRealtimeMonitoring: True
 
 重复运行不会重复创建额外文件。
 
+### 使用 GitHub 直链远程执行
+
+以下命令会从 GitHub Raw 直链下载脚本到临时目录，以管理员权限运行，然后删除临时文件。该直链要求仓库为公开状态；私有仓库匿名访问时会返回 `404`。
+
+远程关闭实时保护：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$url='https://raw.githubusercontent.com/junjundesk/defender-real-time-policy/main/defender-real-time-policy.cmd'; $file=Join-Path $env:TEMP 'defender-real-time-policy.cmd'; Invoke-WebRequest -Uri $url -OutFile $file; Start-Process -FilePath $file -Verb RunAs -Wait; Remove-Item -LiteralPath $file -Force"
+```
+
+远程恢复实时保护：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$url='https://raw.githubusercontent.com/junjundesk/defender-real-time-policy/main/defender-real-time-policy.cmd'; $file=Join-Path $env:TEMP 'defender-real-time-policy.cmd'; Invoke-WebRequest -Uri $url -OutFile $file; Start-Process -FilePath $file -ArgumentList 'restore' -Verb RunAs -Wait; Remove-Item -LiteralPath $file -Force"
+```
+
+脚本直链：
+
+```text
+https://raw.githubusercontent.com/junjundesk/defender-real-time-policy/main/defender-real-time-policy.cmd
+```
+
 ### 恢复实时保护
 
 在脚本所在目录打开管理员终端，然后运行：
@@ -81,6 +103,28 @@ DisableRealtimeMonitoring: True
 ```
 
 The operation is idempotent and does not create additional files.
+
+### Remote execution using the GitHub direct link
+
+The following commands download the script from its GitHub Raw URL into the temporary directory, run it with administrator privileges, and remove the temporary file afterward. The repository must be public for anonymous direct-link access; a private repository returns `404`.
+
+Remotely disable real-time protection:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$url='https://raw.githubusercontent.com/junjundesk/defender-real-time-policy/main/defender-real-time-policy.cmd'; $file=Join-Path $env:TEMP 'defender-real-time-policy.cmd'; Invoke-WebRequest -Uri $url -OutFile $file; Start-Process -FilePath $file -Verb RunAs -Wait; Remove-Item -LiteralPath $file -Force"
+```
+
+Remotely restore real-time protection:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$url='https://raw.githubusercontent.com/junjundesk/defender-real-time-policy/main/defender-real-time-policy.cmd'; $file=Join-Path $env:TEMP 'defender-real-time-policy.cmd'; Invoke-WebRequest -Uri $url -OutFile $file; Start-Process -FilePath $file -ArgumentList 'restore' -Verb RunAs -Wait; Remove-Item -LiteralPath $file -Force"
+```
+
+Raw script URL:
+
+```text
+https://raw.githubusercontent.com/junjundesk/defender-real-time-policy/main/defender-real-time-policy.cmd
+```
 
 ### Restore real-time protection
 
